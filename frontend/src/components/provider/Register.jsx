@@ -51,7 +51,7 @@ const Register = () => {
               </div>
               <div className="form-group">
                 <button type="submit" className="btn btn-primary">Register</button>
-                <Link to="/login" className="btn btn-link">Signin</Link>
+                <Link to="/provider/login" className="btn btn-link">Signin</Link>
               </div>
             </form>
           </div>
