@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Provider\AuthController;
+use App\Http\Controllers\Provider\RegisteredProviderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/provider/login', [AuthController::class, 'authenticate']);
-
+Route::post('/provider/register', [RegisteredProviderController::class, 'store']);
 Route::post('/provider/logout', [AuthController::class, 'destroy']);
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {

@@ -32,8 +32,14 @@ const Login = () => {
         <div className="row">
           <div className="m-auto" style={{ width: "320px" }}>
             <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
-            {errors.message &&
-              <div className="alert alert-danger">{errors.message}</div>
+            {Object.keys(errors).length > 0 &&
+              <div className="alert alert-danger">
+                <ul>
+                  {Object.keys(errors).map((key, index) => (
+                    <li key={index}>{errors[key]}</li>
+                  ))}
+                </ul>
+              </div>
             }
             <form className="row g-3 needs-validation" onSubmit={handleLogin} noValidate>
               <div className="form-group">
