@@ -7,6 +7,7 @@ import About from './components/About'
 import Contact from './components/Contact'
 import Login from './components/provider/Login'
 import Register from './components/provider/Register'
+import Profile from './components/provider/Profile'
 import NotFound from './components/NotFound'
 
 function App() {
@@ -57,6 +58,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/provider/login" element={<Login />} />
           <Route path="/provider/register" element={<Register />} />
+          <Route path="/provider/profile" element={<Profile />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

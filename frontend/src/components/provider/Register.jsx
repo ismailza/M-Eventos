@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from '../../api/axios'
 
@@ -16,15 +16,23 @@ const Register = () => {
     password: '',
     password_confirmation: ''
   })
+  
+  const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
 
-  const [errors, setErrors] = useState({});
+  const csrf = () => axios.get('/sanctum/csrf-cookie');
 
   const handleSubmit = async (event) => {
     event.preventDefault()
+    await csrf();
     try {
-      await axios.post('/api/provider/register', state);
+      await axios.post('/api/provider/register', state, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      );
       setState({
         firstname: '',
         lastname: '',
@@ -52,6 +60,13 @@ const Register = () => {
     });
   }
 
+  const handleFileChange = (e) => {
+    setState({
+      ...state,
+      [e.target.name]: e.target.files[0]
+    });
+  }
+
   return (
     <div className="py-5">
       <div className="container">
@@ -67,7 +82,7 @@ const Register = () => {
                 </ul>
               </div>
             }
-            <form className="row g-3 needs-validation" onSubmit={handleSubmit} encType='multipart/form-data' noValidate>
+            <form className="row g-3 needs-validation" onSubmit={handleSubmit} encType="multipart/form-data" noValidate>
               <div className="col-md-4">
                 <label htmlFor="name" className="form-label">Firstname</label>
                 <input type="text" name="firstname" value={state.firstname} onChange={handleChange} className="form-control" id="firstname" placeholder='Firstname' />
@@ -82,7 +97,7 @@ const Register = () => {
               </div>
               <div className="col-md-12">
                 <label htmlFor="name" className="form-label">Photo</label>
-                <input type="file" name="photo" onChange={handleChange} className="form-control" id="photo" />
+                <input type="file" name="photo" onChange={handleFileChange} className="form-control" id="photo" />
               </div>
               <div className="col-md-12">
                 <label htmlFor="address" className="form-label">Address</label>

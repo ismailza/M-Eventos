@@ -20,7 +20,7 @@ class AuthController extends Controller
         // merge the field type with the request
         $credentials = array_merge([$fieldType => $credentials['username']], ['password' => $credentials['password']]);
         // attempt to authenticate the provider
-        if (Auth::guard('provider')->attempt($credentials, $request->has('remember'))) {
+        if (Auth::guard('provider')->attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
             return response()->json([
                 'status' => 200,
@@ -44,5 +44,10 @@ class AuthController extends Controller
             'status' => 200,
             'message' => 'You are logged out successfully.',
         ], 200);
+    }
+
+    public function user()
+    {
+        return Auth::guard('provider')->user();
     }
 }
