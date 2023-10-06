@@ -1,16 +1,41 @@
-import { useEffect } from "react"
 import useAuthContext from "../../context/AuthContext"
-import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
 
-  const { user, getUser } = useAuthContext();
+  const { user } = useAuthContext();
 
-  const navigate = useNavigate();
+  const saveProfile = (event) => {
+    const inputs = document.querySelectorAll('input');
+    const textareas = document.querySelectorAll('textarea');
+    inputs.forEach(input => {
+      input.setAttribute('disabled', 'disabled');
+    });
+    textareas.forEach(textarea => {
+      textarea.setAttribute('disabled', 'disabled');
+    });
 
-  useEffect(() => {
-    getUser();
-  }, []);
+    event.target.innerText = 'Edit Profile';
+    event.target.classList.remove('btn-primary');
+    event.target.classList.add('btn-warning');
+    event.target.addEventListener('click', editProfile);
+    event.target.setAttribute('type', 'button');
+  }
+
+  const editProfile = (event) => {
+    const inputs = document.querySelectorAll('input');
+    const textareas = document.querySelectorAll('textarea');
+    inputs.forEach(input => {
+      input.removeAttribute('disabled');
+    });
+    textareas.forEach(textarea => {
+      textarea.removeAttribute('disabled');
+    });
+    
+    event.target.innerText = 'Save';
+    event.target.classList.remove('btn-warning');
+    event.target.classList.add('btn-primary');
+    event.target.removeEventListener('click', editProfile);
+  }
 
   return (
     <div>
@@ -24,7 +49,7 @@ const Profile = () => {
               <span> </span>
             </div>
           </div>
-          <div className="col-md-7 border-right">
+          <form className="col-md-7 border-right">
             <div className="p-3 py-5">
               <div className="d-flex justify-content-between align-items-center mb-3">
                 <h4 className="text-right">Profile Settings</h4>
@@ -36,12 +61,12 @@ const Profile = () => {
                 <div className="col-md-6"><label className="labels">Mobile Number</label><input type="text" className="form-control" placeholder="enter phone number" value={ user?.phone_number } disabled/></div>
               </div>
               <div className="row mt-3">
-                <div className="col-md-12"><label className="labels">Address</label><input type="text" className="form-control" placeholder="enter address line 1" value={ user?.address } disabled/></div>
+                <div className="col-md-12"><label className="labels">Address</label><textarea className="form-control" placeholder="enter address" value={ user?.address } disabled></textarea></div>
                 <div className="col-md-12"><label className="labels">Email</label><input type="text" className="form-control" placeholder="enter email id" value={ user?.email } disabled/></div>
               </div>
-              <div className="mt-5 text-center"><button className="btn btn-primary profile-button" type="button">Save Profile</button></div>
+              <div className="mt-5 text-center"><button className="btn btn-warning profile-button" onClick={editProfile} type="button">Edit Profile</button></div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>

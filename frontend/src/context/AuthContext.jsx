@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import axios from "../api/axios";
 import { useNavigate } from "react-router-dom";
 
@@ -23,9 +23,9 @@ export const AuthProvider = ({ children }) => {
   const login = async ({ ...credentials }) => {
     await csrf();
     try {
-      await axios.post('/api/provider/login', credentials);
-      getUser();
-      navigate('/provider');
+      const resp = await axios.post('/api/provider/login', credentials);
+      await getUser();
+      navigate('/provider', { state: { message: resp.data.message } });
     } catch (err) {
       console.log(err);
       setErrors(err.response.data.errors);
@@ -35,12 +35,12 @@ export const AuthProvider = ({ children }) => {
   const register = async ({ ...data }) => {
     await csrf();
     try {
-      await axios.post('/api/provider/register', data, {
+      const resp = await axios.post('/api/provider/register', data, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
-      navigate('/provider/login');
+      navigate('/provider/login', { state: { message: resp.data.message } });
     } catch (err) {
       console.log(err);
       setErrors(err.response.data.errors);
@@ -50,13 +50,19 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     await csrf();
     try {
-      await axios.post('/api/provider/logout');
+      const resp = await axios.post('/api/provider/logout');
       setUser(null);
-      navigate('/provider/login');
+      navigate('/provider/login', { state: { message: resp.data.message } });
     } catch (err) {
       console.log(err);
     }
   }
+
+  useEffect(() => {
+    if (!user) {
+      getUser();
+    }
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, errors, login, register, logout, getUser }}>

@@ -4,6 +4,8 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+import 'tom-select/dist/js/tom-select.complete.min.js';
+import 'tom-select/dist/css/tom-select.bootstrap5.min.css'
 import './index.css'
 import { AuthProvider } from './context/AuthContext.jsx'
 

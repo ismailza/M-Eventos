@@ -45,4 +45,9 @@ class Provider extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function services()
+    {
+        return $this->hasMany(Service::class);
+    }
+
 }

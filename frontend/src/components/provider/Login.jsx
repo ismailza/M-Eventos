@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import useAuthContext from '../../context/AuthContext'
 
 const Login = () => {
@@ -9,6 +9,8 @@ const Login = () => {
   const [remember, setRemember] = useState(false);
 
   const { login, errors } = useAuthContext();
+
+  const location = useLocation();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -30,6 +32,11 @@ const Login = () => {
                 </ul>
               </div>
             }
+            {location.state?.message && (
+              <div className="alert alert-success">
+                {location.state.message}
+              </div>
+            )}
             <form className="row g-3 needs-validation" onSubmit={handleLogin} noValidate>
               <div className="form-group">
                 <label htmlFor="username">Username</label>

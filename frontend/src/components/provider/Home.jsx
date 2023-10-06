@@ -1,21 +1,29 @@
-import { useEffect } from "react"
+import { useLocation } from "react-router-dom";
 import useAuthContext from "../../context/AuthContext"
-import { useNavigate } from "react-router-dom";
 
 const Home = () => {
 
-  const { user, getUser } = useAuthContext();
+  const { user } = useAuthContext();
 
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!user) {
-      getUser();
-    }
-  }, []);
+  const location = useLocation();
 
   return (
-    <div>{ user?.firstname }</div>
+    <>
+      {location.state?.message && (
+        <div className="alert alert-success">
+          {location.state.message}
+        </div>
+      )}
+      <div className="py-5">
+        <div className="container">
+          <div className="row">
+            <div className="m-auto">
+              <h1 className="h3 mb-3 fw-normal">Welcome {user?.firstname}</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   )
 }
 
