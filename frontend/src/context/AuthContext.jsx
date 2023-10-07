@@ -27,8 +27,7 @@ export const AuthProvider = ({ children }) => {
       await getUser();
       navigate('/provider', { state: { message: resp.data.message } });
     } catch (err) {
-      console.log(err);
-      setErrors(err.response.data.errors);
+      setErrors({ error: err.response.data.message })
     }
   }
 

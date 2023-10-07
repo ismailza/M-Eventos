@@ -38,21 +38,22 @@ const Profile = () => {
   }
 
   return (
-    <div>
+    <>
       <div className="container rounded bg-white mt-5 mb-5">
         <div className="row">
           <div className="col-md-3 border-right">
             <div className="d-flex flex-column align-items-center text-center p-3 py-5">
               <img className="rounded-circle mt-5 mb-3" width="150px" src={'http://localhost:8000/storage/' + user?.photo} />
               <span className="font-weight-bold">{user?.firstname} { user?.lastname }</span>
-              <span className="text-black-50">{ user?.email }</span>
+              <span className="text-black-50">{ user?.username }</span>
               <span> </span>
+              <button className="btn btn-info btn-sm mt-2">Update profile picture</button>
             </div>
           </div>
           <form className="col-md-7 border-right">
             <div className="p-3 py-5">
               <div className="d-flex justify-content-between align-items-center mb-3">
-                <h4 className="text-right">Profile Settings</h4>
+                <h4 className="text-right">Profile</h4>
               </div>
               <div className="row mt-2">
                 <div className="col-md-6"><label className="labels">Firstname</label><input type="text" className="form-control" placeholder="firstname" value={ user?.firstname } disabled/></div>
@@ -69,7 +70,7 @@ const Profile = () => {
           </form>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

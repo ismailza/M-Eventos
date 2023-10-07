@@ -2,7 +2,8 @@ import React from 'react'
 import { Routes, Link, Route, useLocation } from 'react-router-dom'
 import './App.css'
 
-import Home from './components/provider/Home'
+import Home from './pages/Home'
+import ProviderDashboard from './components/provider/Home'
 import Login from './components/provider/Login'
 import Register from './components/provider/Register'
 import Profile from './components/provider/Profile'
@@ -38,6 +39,12 @@ function App() {
                       <Link to={'/provider/services'} className={`nav-link ${location.pathname === '/provider/services' ? 'active' : ''}`} aria-current="page">Services</Link>
                     </li>
                     <li className="nav-item">
+                      <Link to={'/provider/services/add'} className={`nav-link ${location.pathname === '/provider/services/add' ? 'active' : ''}`} aria-current="page">Add Service</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link to={''} className={`nav-link ${location.pathname === '/provider/chat' ? 'active' : ''}`} aria-current="page">Chat</Link>
+                    </li>
+                    <li className="nav-item">
                       <Link to={'/provider/profile'} className={`nav-link ${location.pathname === '/provider/profile' ? 'active' : ''}`} aria-current="page">Profile</Link>
                     </li>
                     <li className="nav-item">
@@ -61,8 +68,9 @@ function App() {
       </header>
       <div className="container">
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route element={<AuthLayout />}>
-            <Route path="/provider" element={<Home />} />
+            <Route path="/provider" element={<ProviderDashboard />} />
             <Route path="/provider/profile" element={<Profile />} />
             <Route path="/provider/services" element={<Services />} />
             <Route path="/provider/services/add" element={<AddService />} />

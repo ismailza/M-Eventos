@@ -21,9 +21,12 @@ const AddService = () => {
 
   const navigate = useNavigate()
 
+  const csrf = () => axios.get('/sanctum/csrf-cookie');
+
   const getService = async () => {
+    await csrf()
     try {
-      const response = await axios.get('/api/provider/services/' + id + '/edit')
+      const response = await axios.get(`/api/provider/services/${id}/edit`)
       setState({
         ...state,
         name: response.data.service.name,
@@ -34,7 +37,7 @@ const AddService = () => {
       })
       setOptions(response.data.options)
     } catch (error) {
-      console.log(error)
+      setErrors({ error: error.response.data.message })
     }
   }
 
@@ -56,13 +59,11 @@ const AddService = () => {
     })
   }
 
-  const csrf = () => axios.get('/sanctum/csrf-cookie');
-
   const handleSubmit = async (event) => {
     event.preventDefault()
     await csrf()
     try {
-      const resp = await axios.post('/api/provider/services/'+ id +'/update', state, {
+      const resp = await axios.post(`/api/provider/services/${id}/update`, state, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -78,7 +79,7 @@ const AddService = () => {
       navigate('/provider/services', { state: { message: resp.data.message } })
     } catch (error) {
       console.log(error)
-      setErrors(error.response.data.errors)
+      setErrors({error : error.response.data.message})
     }
 
   }
@@ -88,7 +89,7 @@ const AddService = () => {
       <div className="container">
         <div className="row">
           <div className="m-auto">
-            <h1 className="h3 mb-3 fw-normal">Add service</h1>
+            <h1 className="h3 mb-3 fw-normal">Edit service</h1>
             {Object.keys(errors).length > 0 &&
               <div className="alert alert-danger">
                 <ul>
@@ -130,6 +131,7 @@ const AddService = () => {
                 </select>
               </div>
               <div className="col-12">
+                <button className="btn btn-secondary me-1" type="button" onClick={() => navigate('/provider/services')}>Cancel</button>
                 <button className="btn btn-primary" type="submit">Update</button>
               </div>
             </form>

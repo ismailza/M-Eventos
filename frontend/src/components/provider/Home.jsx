@@ -19,6 +19,7 @@ const Home = () => {
           <div className="row">
             <div className="m-auto">
               <h1 className="h3 mb-3 fw-normal">Welcome {user?.firstname}</h1>
+              
             </div>
           </div>
         </div>
