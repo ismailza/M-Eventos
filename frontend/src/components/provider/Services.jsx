@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
 import axios from "../../api/axios"
 import ReactPaginate from 'react-paginate';
+import Header from "./Header";
 
 const Services = () => {
 
@@ -51,6 +52,7 @@ const Services = () => {
 
   return (
     <>
+      <Header />
       <div className="container rounded bg-white mt-5 mb-5">
         <div className="row">
           <div className="col-md-12 border-right">

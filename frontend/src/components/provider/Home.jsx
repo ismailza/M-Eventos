@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import useAuthContext from "../../context/AuthContext"
+import Header from "./Header";
 
 const Home = () => {
 
@@ -9,6 +10,7 @@ const Home = () => {
 
   return (
     <>
+      <Header />
       {location.state?.message && (
         <div className="alert alert-success">
           {location.state.message}

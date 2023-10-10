@@ -1,4 +1,5 @@
 import useAuthContext from "../../context/AuthContext"
+import Header from "./Header";
 
 const Profile = () => {
 
@@ -39,6 +40,7 @@ const Profile = () => {
 
   return (
     <>
+      <Header />
       <div className="container rounded bg-white mt-5 mb-5">
         <div className="row">
           <div className="col-md-3 border-right">
