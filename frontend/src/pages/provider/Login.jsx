@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import useAuthContext from '../../context/AuthContext'
 
 const Login = () => {
@@ -8,9 +8,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(false);
 
-  const { login, errors } = useAuthContext();
-
-  const location = useLocation();
+  const { login } = useAuthContext();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -31,20 +29,6 @@ const Login = () => {
               &nbsp;
               <Link to={'/provider/register'}>Register</Link>
             </p>
-            {Object.keys(errors).length > 0 &&
-              <div className="alert alert-danger">
-                <ul>
-                  {Object.keys(errors).map((key, index) => (
-                    <li key={index}>{errors[key]}</li>
-                  ))}
-                </ul>
-              </div>
-            }
-            {location.state?.message && (
-              <div className="alert alert-success">
-                {location.state.message}
-              </div>
-            )}
             <form className="row g-3 needs-validation" onSubmit={handleLogin} noValidate>
               <div className="form-group">
                 <label htmlFor="username">Username</label>
@@ -59,10 +43,10 @@ const Login = () => {
                 <label className="form-check-label" htmlFor="remember">Remember me</label>
               </div>
               <div className="form-group">
-                <Link to={'/provider/forgot-password'}>Forgot password?</Link>
+                <button type="submit" className="btn btn-primary">Signin</button>
               </div>
               <div className="form-group">
-                <button type="submit" className="btn btn-primary">Signin</button>
+                <Link to={'/provider/forgot-password'}>Forgot password?</Link>
               </div>
             </form>
           </div>

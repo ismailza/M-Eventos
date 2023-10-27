@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import axios from "../../api/axios"
 import { useNavigate, useParams } from "react-router-dom"
-import Header from "./Header"
+import Header from "../../components/provider/Header"
 
 
 const AddService = () => {
@@ -80,7 +80,7 @@ const AddService = () => {
       navigate('/provider/services', { state: { message: resp.data.message } })
     } catch (error) {
       console.log(error)
-      setErrors({error : error.response.data.message})
+      setErrors({ error: error.response.data.message })
     }
 
   }

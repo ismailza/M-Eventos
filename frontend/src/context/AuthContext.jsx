@@ -2,6 +2,8 @@ import { createContext, useContext, useEffect, useState } from "react";
 import axios from "../api/axios";
 import { useNavigate } from "react-router-dom";
 
+import { toast } from "react-toastify"
+
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
@@ -25,9 +27,10 @@ export const AuthProvider = ({ children }) => {
     try {
       const resp = await axios.post('/api/provider/login', credentials);
       await getUser();
+      toast.success(resp.data.message);
       navigate('/provider', { state: { message: resp.data.message } });
     } catch (err) {
-      setErrors({ error: err.response.data.message })
+      toast.error(err.response.data.message);
     }
   }
 
@@ -39,6 +42,7 @@ export const AuthProvider = ({ children }) => {
           'Content-Type': 'multipart/form-data'
         }
       });
+      toast.success(resp.data.message);
       navigate('/provider/login', { state: { message: resp.data.message } });
     } catch (err) {
       console.log(err);
@@ -51,6 +55,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const resp = await axios.post('/api/provider/logout');
       setUser(null);
+      toast.success(resp.data.message);
       navigate('/provider/login', { state: { message: resp.data.message } });
     } catch (err) {
       console.log(err);

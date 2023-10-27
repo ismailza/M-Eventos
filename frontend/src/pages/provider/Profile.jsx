@@ -1,5 +1,5 @@
 import useAuthContext from "../../context/AuthContext"
-import Header from "./Header";
+import Header from "../../components/provider/Header";
 
 const Profile = () => {
 
@@ -31,7 +31,7 @@ const Profile = () => {
     textareas.forEach(textarea => {
       textarea.removeAttribute('disabled');
     });
-    
+
     event.target.innerText = 'Save';
     event.target.classList.remove('btn-warning');
     event.target.classList.add('btn-primary');
@@ -46,8 +46,8 @@ const Profile = () => {
           <div className="col-md-3 border-right">
             <div className="d-flex flex-column align-items-center text-center p-3 py-5">
               <img className="rounded-circle mt-5 mb-3" width="150px" src={'http://localhost:8000/storage/' + user?.photo} />
-              <span className="font-weight-bold">{user?.firstname} { user?.lastname }</span>
-              <span className="text-black-50">{ user?.username }</span>
+              <span className="font-weight-bold">{user?.firstname} {user?.lastname}</span>
+              <span className="text-black-50">{user?.username}</span>
               <span> </span>
               <button className="btn btn-info btn-sm mt-2">Update profile picture</button>
             </div>
@@ -58,14 +58,14 @@ const Profile = () => {
                 <h4 className="text-right">Profile</h4>
               </div>
               <div className="row mt-2">
-                <div className="col-md-6"><label className="labels">Firstname</label><input type="text" className="form-control" placeholder="firstname" value={ user?.firstname } disabled/></div>
-                <div className="col-md-6"><label className="labels">Lastname</label><input type="text" className="form-control" placeholder="lastname" value={ user?.lastname } disabled/></div>
-                <div className="col-md-6"><label className="labels">Username</label><input type="text" className="form-control" value={ user?.username } placeholder="username" disabled/></div>
-                <div className="col-md-6"><label className="labels">Mobile Number</label><input type="text" className="form-control" placeholder="enter phone number" value={ user?.phone_number } disabled/></div>
+                <div className="col-md-6"><label className="labels">Firstname</label><input type="text" className="form-control" placeholder="firstname" value={user?.firstname} disabled /></div>
+                <div className="col-md-6"><label className="labels">Lastname</label><input type="text" className="form-control" placeholder="lastname" value={user?.lastname} disabled /></div>
+                <div className="col-md-6"><label className="labels">Username</label><input type="text" className="form-control" value={user?.username} placeholder="username" disabled /></div>
+                <div className="col-md-6"><label className="labels">Mobile Number</label><input type="text" className="form-control" placeholder="enter phone number" value={user?.phone_number} disabled /></div>
               </div>
               <div className="row mt-3">
-                <div className="col-md-12"><label className="labels">Address</label><textarea className="form-control" placeholder="enter address" value={ user?.address } disabled></textarea></div>
-                <div className="col-md-12"><label className="labels">Email</label><input type="text" className="form-control" placeholder="enter email id" value={ user?.email } disabled/></div>
+                <div className="col-md-12"><label className="labels">Address</label><textarea className="form-control" placeholder="enter address" value={user?.address} disabled></textarea></div>
+                <div className="col-md-12"><label className="labels">Email</label><input type="text" className="form-control" placeholder="enter email id" value={user?.email} disabled /></div>
               </div>
               <div className="mt-5 text-center"><button className="btn btn-warning profile-button" onClick={editProfile} type="button">Edit Profile</button></div>
             </div>
