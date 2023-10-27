@@ -1,0 +1,13 @@
+.client-dash-container{
+    @apply px-1 md:px-7 pt-4;
+    .sub-container{
+        @apply flex flex-wrap md:justify-between gap-y-5; 
+        .box{
+            @apply border border-slate-400 min-w-full md:min-w-[500px] md:min-h-[300px] rounded-lg ;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            .line-color {
+                border-bottom: 2px solid black;
+            }
+        }
+    }
+}

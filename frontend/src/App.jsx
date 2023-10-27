@@ -21,6 +21,11 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/services" element={<Home />} />
+        <Route path="/bons-plans" element={<Home />} />
+        <Route path="/actualites" element={<Home />} />
+        <Route path="/contact" element={<Home />} />
+
         <Route element={<AuthLayout />}>
           <Route path="/provider" element={<ProviderDashboard />} />
           <Route path="/provider/profile" element={<Profile />} />

@@ -1,0 +1,9 @@
+.services-Tabs{
+    @apply flex gap-10 flex-wrap w-full
+}
+
+.ant-modal-confirm-btns{
+    .ant-btn-primary{
+        background-color: blue;
+    }
+}

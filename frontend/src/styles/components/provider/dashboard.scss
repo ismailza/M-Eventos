@@ -1,0 +1,56 @@
+#dashboard {
+  @apply px-1 pb-1 pt-4;
+  .upper {
+    @apply flex flex-col gap-y-2;
+    .upper-content {
+      @apply flex flex-wrap justify-between gap-y-1 w-full;
+      .upper-left {
+        @apply flex flex-wrap  p-2 rounded-[28px] gap-x-2 md:min-w-[290px] md:w-[30%];
+        .text-section {
+          @apply flex flex-col leading-tight;
+        }
+      }
+      .upper-right {
+        @apply flex flex-wrap md:min-w-[350px]  md:w-[50%] lg:w-[40%] justify-between;
+        .checklist {
+          @apply py-[16px] rounded-[28px] px-[30px] bg-blue-500 md:w-[25%];
+        }
+        .message {
+          @apply py-[16px] rounded-[28px] px-[30px] bg-black md:w-[25%];
+          svg {
+            @apply h-[30px] w-[30px];
+          }
+        }
+        .tools {
+          @apply py-[16px] rounded-[28px] px-[30px];
+        }
+      }
+    }
+    .upper-search {
+      @apply flex flex-wrap w-full justify-between items-center pr-[30px];
+    }
+  }
+  .lower {
+    @apply px-4;
+    .content-section {
+      @apply flex flex-wrap max-w-[1200px] justify-around sm:justify-between gap-y-8  px-0 sm:px-1 md:px-3 lg:px-6;
+      .box {
+        @apply mx-auto min-h-[150px] w-[87%] sm:w-[47%] md:w-[30%] lg:w-[18%];
+
+        .dash-card {
+          @apply flex flex-col justify-evenly min-h-[200px] items-center rounded-[20px] text-white;
+        }
+      }
+    }
+    .content-sections {
+      @apply flex flex-wrap max-w-[1200px] justify-around sm:justify-between gap-y-8  px-0 sm:px-1 md:px-3 lg:px-6;
+      .box {
+        @apply mx-auto min-h-[150px] w-[87%] sm:w-[47%] md:w-[30%] lg:w-[18%];
+
+        .dash-card {
+          @apply flex flex-col justify-evenly min-h-[200px] items-center rounded-[20px] text-white;
+        }
+      }
+    }
+  }
+}
