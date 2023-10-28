@@ -17,7 +17,7 @@ const Header = () => {
               {user ? (
                 <>
                   <li className="nav-item">
-                    <Link to={'/provider'} className={`nav-link ${location.pathname === '/provider' ? 'active' : ''}`} aria-current="page">Home</Link>
+                    <Link to={'/provider'} className={`nav-link ${location.pathname === '/provider' ? 'active' : ''}`} aria-current="page">Overview</Link>
                   </li>
                   <li className="nav-item">
                     <Link to={'/provider/services'} className={`nav-link ${location.pathname === '/provider/services' ? 'active' : ''}`} aria-current="page">Services</Link>

@@ -38,12 +38,12 @@ const Login = () => {
                 <label htmlFor="password">Password</label>
                 <input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} id="password" className="form-control" placeholder="Enter your password" required />
               </div>
-              <div className="form-group form-check">
-                <input type="checkbox" name="remember" onChange={(e) => setRemember(e.target.checked)} className="form-check-input p-" id="remember" />
+              <div className="form-group form-check" style={{paddingLeft: '45px'}}>
+                <input type="checkbox" name="remember" onChange={(e) => setRemember(e.target.checked)} className="form-check-input border-black" id="remember" />
                 <label className="form-check-label" htmlFor="remember">Remember me</label>
               </div>
-              <div className="form-group">
-                <button type="submit" className="btn btn-primary">Signin</button>
+              <div className="form-group d-grid">
+                <button type="submit" className="btn btn-outline-primary">Signin</button>
               </div>
               <div className="form-group">
                 <Link to={'/provider/forgot-password'}>Forgot password?</Link>
