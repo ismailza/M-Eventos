@@ -9,6 +9,7 @@ const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [errors, setErrors] = useState({});
+  const [dashboard, setDashboard] = useState({});
   const navigate = useNavigate();
   const csrf = () => axios.get('/sanctum/csrf-cookie');
   
@@ -62,6 +63,16 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
+  const index = async () => {
+    await csrf();
+    try {
+      const { data } = await axios.get('/api/provider/dashboard');
+      setDashboard(data)
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   useEffect(() => {
     if (!user) {
       getUser();
@@ -69,7 +80,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, errors, login, register, logout, getUser }}>
+    <AuthContext.Provider value={{ user, errors, login, register, logout, getUser, dashboard, index }}>
       {children}
     </AuthContext.Provider>
   )

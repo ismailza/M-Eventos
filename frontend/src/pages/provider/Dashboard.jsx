@@ -3,10 +3,16 @@ import { Link } from "react-router-dom";
 import Footer from "../../components/provider/Footer"
 import Header from "../../components/provider/Header"
 import useAuthContext from "../../context/AuthContext";
+import { useEffect } from "react";
 
 const Dashboard = () => {
 
   const { user } = useAuthContext();
+  const { dashboard, index } = useAuthContext();
+
+  useEffect(() => {
+    index();
+  }, [])
 
   const date = new Date().toLocaleString();
 
@@ -19,9 +25,11 @@ const Dashboard = () => {
         <div className="container-consistant flex flex-col gap-y-11">
           <div className="upper">
             <div className="upper-content d-flex justify-content-between">
-              <div className="upper-left rounded-5 bg-black" style={{ maxHeight: '56px', padding: '0 10px', width:'260px' }}>
+              <div className="upper-left rounded-5 bg-black" style={{ maxHeight: '56px', padding: '0 10px', width:'320px' }}>
                 <div className="d-flex justify-content-between align-items-center">
-                  <img className="rounded-circle" src={storagePath + user?.photo} style={{ width: '40px', height: '40px' }} />
+                  <Link to={'/provider/profile'}>
+                    <img className="rounded-circle" src={storagePath + user?.photo} style={{ width: '40px', height: '40px' }} />
+                  </Link>
                   <div className="text-section d-grid text-white">
                     <span className="inline-block">
                       <strong>Welcome, {user?.firstname + " " + user?.lastname}</strong>
@@ -51,7 +59,8 @@ const Dashboard = () => {
                 <div className="header text-center mb-3">MY SERVICES</div>
                 <div className="dash-card bg-black text-white rounded p-2">
                   <h5>You Have</h5>
-                  <h4>5/10</h4>
+                  <h4>{dashboard['countServices']}</h4>
+                  <h5>Services</h5>
                 </div>
               </div>
 

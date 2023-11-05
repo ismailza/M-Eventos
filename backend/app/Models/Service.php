@@ -12,8 +12,8 @@ class Service extends Model
     protected $fillable = [
         'name',
         'description',
-        'price',
-        'provider_id'
+        'category_id',
+        'provider_id',
     ];
 
     public function medias()
@@ -25,4 +25,20 @@ class Service extends Model
     {
         return $this->belongsToMany(Option::class);
     }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function provider()
+    {
+        return $this->belongsTo(Provider::class);
+    }
+
+    public function packages()
+    {
+        return $this->hasMany(ServicePackage::class);
+    }
+    
 }

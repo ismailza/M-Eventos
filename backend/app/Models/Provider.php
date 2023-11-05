@@ -50,4 +50,9 @@ class Provider extends Authenticatable
         return $this->hasMany(Service::class);
     }
 
+    public function countServices()
+    {
+        return $this->hasMany(Service::class)->count();
+    }
+
 }

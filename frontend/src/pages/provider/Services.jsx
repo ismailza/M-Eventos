@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom"
 import axios from "../../api/axios"
 import ReactPaginate from 'react-paginate';
 import Header from "../../components/provider/Header";
+import { toast } from "react-toastify";
 
 const Services = () => {
 
@@ -41,6 +42,12 @@ const Services = () => {
 
   useEffect(() => {
     getServices()
+    if (Object.keys(errors).length > 0) {
+      Object.keys(errors).forEach(key => {
+        toast.error(errors[key])
+      })
+    }
+    
   }, [])
 
   const offset = currentPage * servicesPerPage;
@@ -60,29 +67,15 @@ const Services = () => {
               <h4 className="card-title">Services</h4>
               <Link to={'/provider/services/add'} className="btn btn-primary btn-sm text-white mb-0 me-0" type="button">Add service</Link>
             </div>
-            {location.state && location.state.message &&
-              <div className="alert alert-success">
-                {location.state.message}
-              </div>
-            }
-            {Object.keys(errors).length > 0 &&
-              <div className="alert alert-danger">
-                <ul>
-                  {Object.keys(errors).map((key, index) => (
-                    <li key={index}>{errors[key]}</li>
-                  ))}
-                </ul>
-              </div>
-            }
             <div className="table-responsive  mt-1">
               <table className="table select-table" id="table">
                 <thead>
                   <tr>
                     <th>#</th>
                     <th>Service</th>
-                    <th>Price ($)</th>
+                    <th>Category</th>
                     <th>Created at</th>
-                    <th>Actions</th>
+                    <th className="text-end">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -95,7 +88,7 @@ const Services = () => {
                     <tr key={offset + index}>
                       <td>{offset + index + 1}</td>
                       <td>{service.name}</td>
-                      <td>{service.price}</td>
+                      <td>{service.category.name}</td>
                       <td>{new Date(service.created_at).toLocaleString()}</td>
                       <td className="d-grid gap-2 d-md-flex justify-content-md-end">
                         <Link to={`/provider/services/${service.id}/edit`} className="btn btn-warning btn-sm me-md-2">Edit</Link>

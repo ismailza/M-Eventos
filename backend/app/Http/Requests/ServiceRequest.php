@@ -24,7 +24,7 @@ class ServiceRequest extends FormRequest
         return [
             'name' => 'required|string|min:3|max:40',
             'description' => 'nullable|string|min:10',
-            'price' => 'required|numeric',
+            'category_id' => 'required',
             'medias' => 'required|array',
             'medias.*' => 'required|mimes:jpg,jpeg,png,svg,mp4|max:20000',
             'options' => 'required|array',

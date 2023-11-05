@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import axios from "../../api/axios"
-import { useNavigate, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import Header from "../../components/provider/Header"
 
 
@@ -9,7 +9,8 @@ const AddService = () => {
   const [state, setState] = useState({
     name: '',
     description: '',
-    price: '',
+    category_id: '',
+    new_category: '',
     medias: {},
     options: {}
   })
@@ -19,6 +20,8 @@ const AddService = () => {
   const [errors, setErrors] = useState({})
 
   const [options, setOptions] = useState([])
+
+  const [categories, setCategories] = useState([])
 
   const navigate = useNavigate()
 
@@ -32,11 +35,12 @@ const AddService = () => {
         ...state,
         name: response.data.service.name,
         description: response.data.service.description,
-        price: response.data.service.price,
+        category_id: response.data.service.category_id,
         medias: response.data.service.medias,
         options: response.data.service.options
       })
       setOptions(response.data.options)
+      setCategories(response.data.categories)
     } catch (error) {
       setErrors({ error: error.response.data.message })
     }
@@ -57,6 +61,17 @@ const AddService = () => {
     setState({
       ...state,
       medias: event.target.files
+    })
+  }
+
+  const handleCategoryChange = (event) => {
+    if (event.target.value == 0)
+      document.getElementById('new_category').parentElement.classList.remove('visually-hidden')
+    else
+      document.getElementById('new_category').parentElement.classList.add('visually-hidden')
+    setState({
+      ...state,
+      [event.target.name]: event.target.value
     })
   }
 
@@ -102,14 +117,24 @@ const AddService = () => {
                   </ul>
                 </div>
               }
-              <form className="row g-3 needs-validation" onSubmit={handleSubmit} encType="multipart/form-data" noValidate>
+              <form className="row g-3 needs-validation text-start" onSubmit={handleSubmit} encType="multipart/form-data" noValidate>
                 <div className="col-md-6">
                   <label htmlFor="name" className="form-label">Service name</label>
                   <input type="text" name="name" value={state.name} onChange={handleChange} className="form-control" id="name" placeholder='Service name' />
                 </div>
                 <div className="col-md-6">
-                  <label htmlFor="name" className="form-label">Price</label>
-                  <input type="text" name="price" value={state.price} onChange={handleChange} className="form-control" id="price" placeholder='Price' />
+                  <label htmlFor="category" className="form-label">Category</label>
+                  <select name="category_id" onChange={handleCategoryChange} className="form-control" id="category">
+                    <option value="" selected disabled>Select category</option>
+                    {categories.map((category, index) => (
+                      <option key={index} value={category.id}>{category.name}</option>
+                    ))}
+                    <option value="0">Other</option>
+                  </select>
+                </div>
+                <div className="col-md-12 visually-hidden">
+                  <label htmlFor="new_category">New Category</label>
+                  <input type="text" name="new_category" onChange={handleChange} className="form-control" id="new_category" placeholder='New Category' />
                 </div>
                 <div className="col-md-12">
                   <label htmlFor="name" className="form-label">Description</label>
@@ -133,9 +158,9 @@ const AddService = () => {
                     ))}
                   </select>
                 </div>
-                <div className="col-12">
-                  <button className="btn btn-secondary me-1" type="button" onClick={() => navigate('/provider/services')}>Cancel</button>
-                  <button className="btn btn-primary" type="submit">Update</button>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                  <Link to={'/provider/services'} class="btn btn-secondary me-md-2" type="button">Cancel</Link>
+                  <button className="btn btn-warning" type="submit">Update</button>
                 </div>
               </form>
             </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use App\Models\Provider;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -16,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 60);
             $table->text('description');
-            $table->float('price', 10, 2)->nullable();
+            $table->foreignIdFor(Category::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Provider::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });

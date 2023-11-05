@@ -64,7 +64,7 @@ const Register = () => {
                 </ul>
               </div>
             }
-            <form className="row g-3 needs-validation" onSubmit={handleSubmit} encType="multipart/form-data" noValidate>
+            <form className="row g-3 needs-validation text-start" onSubmit={handleSubmit} encType="multipart/form-data" noValidate>
               <div className="col-md-6">
                 <label htmlFor="name" className="form-label">Firstname</label>
                 <input type="text" name="firstname" value={state.firstname} onChange={handleChange} className="form-control" id="firstname" placeholder='Firstname' />

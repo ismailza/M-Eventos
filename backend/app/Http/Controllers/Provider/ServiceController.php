@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Provider;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ServiceRequest;
+use App\Models\Category;
 use App\Models\Option;
 use App\Models\Service;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ class ServiceController extends Controller
     {
         return response()->json([
             'status' => 200,
-            'services' => Service::where('provider_id', Auth::guard('provider')->user()->id)->latest()->get(),
+            'services' => Service::with('category')->where('provider_id', Auth::guard('provider')->user()->id)->latest()->get(),
         ], 200);
     }
 
@@ -24,12 +25,22 @@ class ServiceController extends Controller
         return response()->json([
             'status' => 200,
             'options' => Option::all(),
+            'categories' => Category::all(),
         ], 200);
     }
 
     public function store(ServiceRequest $request)
     {
+        $category = null;
+        if ($request->category_id == 0) {
+            $category = Category::create([
+                'name' => $request->new_category,
+            ]);
+        }
         $service = $request->validated();
+        if ($category) {
+            $service['category_id'] = $category->id;
+        }
         $service['provider_id'] = Auth::guard('provider')->user()->id;
         $service = Service::create($service);
         $service->options()->sync($request->validated('options'));
@@ -46,6 +57,7 @@ class ServiceController extends Controller
             'status' => 200,
             'service' => $service->load('options')->load('medias'),
             'options' => Option::all(),
+            'categories' => Category::all(),
         ], 200);
     }
 

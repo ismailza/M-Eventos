@@ -30,11 +30,11 @@ const Login = () => {
               <Link to={'/provider/register'}>Register</Link>
             </p>
             <form className="row g-3 needs-validation" onSubmit={handleLogin} noValidate>
-              <div className="form-group">
+              <div className="form-group text-start">
                 <label htmlFor="username">Username</label>
                 <input type="text" name="username" value={username} onChange={(e) => setUsername(e.target.value)} id="username" className="form-control" placeholder="Enter your username" required />
               </div>
-              <div className="form-group">
+              <div className="form-group text-start">
                 <label htmlFor="password">Password</label>
                 <input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} id="password" className="form-control" placeholder="Enter your password" required />
               </div>
@@ -45,7 +45,7 @@ const Login = () => {
               <div className="form-group d-grid">
                 <button type="submit" className="btn btn-outline-primary">Signin</button>
               </div>
-              <div className="form-group">
+              <div className="form-group text-end">
                 <Link to={'/provider/forgot-password'}>Forgot password?</Link>
               </div>
             </form>

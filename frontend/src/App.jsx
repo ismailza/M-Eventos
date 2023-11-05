@@ -14,6 +14,7 @@ import GuestLayout from './layouts/provider/GuestLayout'
 import AddService from './pages/provider/AddService'
 import EditService from './pages/provider/EditService'
 import ForgotPassword from './pages/provider/ForgotPassword'
+import Bookings from './pages/provider/Bookings'
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
           <Route path="/provider/services" element={<Services />} />
           <Route path="/provider/services/add" element={<AddService />} />
           <Route path="/provider/services/:id/edit" element={<EditService />} />
+          <Route path="/provider/bookings" element={<Bookings />} />
         </Route>
         <Route element={<GuestLayout />}>
           <Route path="/provider/login" element={<Login />} />

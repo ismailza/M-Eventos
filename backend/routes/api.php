@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Provider\AuthController;
+use App\Http\Controllers\Provider\OptionController;
+use App\Http\Controllers\Provider\ProviderController;
 use App\Http\Controllers\Provider\RegisteredProviderController;
 use App\Http\Controllers\Provider\ServiceController;
 use Illuminate\Http\Request;
@@ -18,10 +20,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('/provider')->group(function () {
+
     Route::post('/login', [AuthController::class, 'authenticate']);
     Route::post('/register', [RegisteredProviderController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'destroy']);
-
+    
+    Route::get('/dashboard', [ProviderController::class, 'index']);
+    
     Route::get('/user', [AuthController::class, 'user']);
 
     Route::prefix('/services')->group(function () {
@@ -32,6 +37,8 @@ Route::prefix('/provider')->group(function () {
         Route::post('/{service}/update', [ServiceController::class, 'update']);
         Route::delete('/{service}', [ServiceController::class, 'destroy']);
     });
+    
+    Route::post('/options/store', [OptionController::class, 'store']);
 });
 
 
