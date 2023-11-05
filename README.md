@@ -1,10 +1,10 @@
-# MEvents
+# M-Eventos
 
-MEvents is a web application that allows users to organize and manage events. It provides features for both event organizers and service providers. This project is divided into two main parts: the frontend and the backend.
+M-Eventos is a web application that allows users to organize and manage events. It provides features for both event organizers and service providers. This project is divided into two main parts: the frontend and the backend.
 
 ## Features
 
-- **User Roles**: MEvents supports two main user roles: Clients and Service Providers.
+- **User Roles**: M-Eventos supports two main user roles: Clients and Service Providers.
 
 - **Event Creation**: Clients can create and manage events, specifying details such as date, time, location, and services required.
 
@@ -20,7 +20,7 @@ MEvents is a web application that allows users to organize and manage events. It
 
 ## Getting Started
 
-Follow these steps to set up and run the MEvents project:
+Follow these steps to set up and run the M-Eventos project:
 
 ### Frontend
 
