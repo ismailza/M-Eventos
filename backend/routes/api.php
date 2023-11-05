@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Provider\AuthController;
+use App\Http\Controllers\Provider\BookingController;
 use App\Http\Controllers\Provider\OptionController;
 use App\Http\Controllers\Provider\ProviderController;
 use App\Http\Controllers\Provider\RegisteredProviderController;
@@ -25,9 +26,10 @@ Route::prefix('/provider')->group(function () {
     Route::post('/register', [RegisteredProviderController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'destroy']);
     
-    Route::get('/dashboard', [ProviderController::class, 'index']);
-    
     Route::get('/user', [AuthController::class, 'user']);
+    
+    Route::get('/dashboard', [ProviderController::class, 'index']);
+    Route::get('/bookings', [BookingController::class, 'index']);
 
     Route::prefix('/services')->group(function () {
         Route::get('/', [ServiceController::class, 'index']);

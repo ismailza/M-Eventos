@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ServicePackage extends Model
+class Package extends Model
 {
     use HasFactory;
 
@@ -13,5 +13,11 @@ class ServicePackage extends Model
         'name',
         'price',
         'description',
+        'service_id'
     ];
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
+    }
 }

@@ -91,7 +91,7 @@ const Services = () => {
                       <td>{service.category.name}</td>
                       <td>{new Date(service.created_at).toLocaleString()}</td>
                       <td className="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <Link to={`/provider/services/${service.id}/edit`} className="btn btn-warning btn-sm me-md-2">Edit</Link>
+                        <Link to={`/provider/services/${service.id}/edit`} className="btn btn-warning btn-sm me">Edit</Link>
                         <button className="btn btn-danger btn-sm" type="button" onClick={deleteService(service.id)}>Delete</button>
                       </td>
                     </tr>
