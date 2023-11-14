@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Provider;
 
 use App\Http\Controllers\Controller;
+use App\Models\Booking;
 use App\Models\Provider;
 use App\Models\Service;
 use Illuminate\Http\Request;
@@ -14,7 +15,12 @@ class ProviderController extends Controller
     {
         return [
             'countServices' => Service::where('provider_id', Auth::guard('provider')->user()->id)->count(),
-            'countBooking' => 0,
+            'countBookings' => Booking::whereHas('service', function ($query) {
+                    $query->where('provider_id', Auth::guard('provider')->user()->id);
+                })->count(),
+            'latestBookings' => Booking::whereHas('service', function ($query) {
+                    $query->where('provider_id', Auth::guard('provider')->user()->id);
+                })->with('service', 'package')->latest()->take(5)->get(),
         ];
     }
 

@@ -3,18 +3,21 @@ import { Link } from "react-router-dom";
 import Footer from "../../components/provider/Footer"
 import Header from "../../components/provider/Header"
 import useAuthContext from "../../context/AuthContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Dashboard = () => {
 
-  const { user } = useAuthContext();
-  const { dashboard, index } = useAuthContext();
+  const { user, dashboard, index } = useAuthContext();
+
+  const [currentDate, setCurrentDate] = useState(new Date())
 
   useEffect(() => {
     index();
+    const intervalId = setInterval(() => {
+      setCurrentDate(new Date());
+    }, 1000);
+    return () => clearInterval(intervalId);
   }, [])
-
-  const date = new Date().toLocaleString();
 
   const storagePath = "http://localhost:8000/storage/"
 
@@ -34,7 +37,7 @@ const Dashboard = () => {
                     <span className="inline-block">
                       <strong>Welcome, {user?.firstname + " " + user?.lastname}</strong>
                     </span>
-                    <span className="inline-block">{date}</span>
+                    <span className="inline-block">{currentDate.toLocaleString()}</span>
                   </div>
                 </div>
               </div>
@@ -65,10 +68,11 @@ const Dashboard = () => {
               </div>
 
               <div className="box" style={{ width: '220px' }}>
-                <div className="header text-center mb-3">MY SERVICES</div>
+                <div className="header text-center mb-3">MY BOOKINGS</div>
                 <div className="dash-card bg-success text-white rounded p-2">
                   <h5>You Have</h5>
-                  <h4>5/10</h4>
+                  <h4>{dashboard['countBookings']}</h4>
+                  <h5>Bookings</h5>
                 </div>
               </div>
 
@@ -105,48 +109,35 @@ const Dashboard = () => {
                 <div className="header text-center mb-3"></div>
                 <div className="d-flex justify-content-between align-items-center mb-3">
                   <h5 className="card-title">LATEST SERVICES BOOKING YOU HAVE</h5>
-                  <Link to={'/provider/services'} className="btn btn-primary btn-sm text-white mb-0 me-0" type="button">View all</Link>
+                  <Link to={'/provider/bookings'} className="btn btn-primary btn-sm text-white mb-0 me-0" type="button">View all</Link>
                 </div>
                 <div className="dash-card rounded p-2">
                   <table className="table table select-table">
                     <thead>
                       <tr>
-                        <th scope="col">Service</th>
                         <th scope="col">Date</th>
+                        <th scope="col">Service</th>
+                        <th scope="col">Package</th>
+                        <th scope="col">Start Booking Date</th>
                         <th scope="col">Status</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>Service 1</td>
-                        <td>12/12/2021</td>
-                        <td className="badge rounded-pill text-bg-success">Completed</td>
-                      </tr>
-                      <tr>
-                        <td>Service 2</td>
-                        <td>12/12/2021</td>
-                        <td className="badge rounded-pill text-bg-success">Completed</td>
-                      </tr>
-                      <tr>
-                        <td>Service 3</td>
-                        <td>12/12/2021</td>
-                        <td className="badge rounded-pill text-bg-warning">In process</td>
-                      </tr>
-                      <tr>
-                        <td>Service 4</td>
-                        <td>12/12/2021</td>
-                        <td className="badge rounded-pill text-bg-danger">Canceled</td>
-                      </tr>
-                      <tr>
-                        <td>Service 5</td>
-                        <td>12/12/2021</td>
-                        <td className="badge rounded-pill text-bg-success">Completed</td>
-                      </tr>
+                      {dashboard['latestBookings']?.map((booking, index) => (
+                        <tr key={index}>
+                          <td>{new Date(booking.created_at).toLocaleString()}</td>
+                          <td>{booking.service.name}</td>
+                          <td>{booking.package.name}</td>
+                          <td>{new Date(booking.start_booking_date).toLocaleString()}</td>
+                          <td className={`badge rounded-pill text-bg-${booking.status === 'pending' ? 'warning' : booking.status === 'approved' ? 'success' : 'danger'}`}>{booking.status}</td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>
               </div>
             </div>
+
 
           </div>
         </div>

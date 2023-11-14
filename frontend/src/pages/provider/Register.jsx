@@ -47,7 +47,7 @@ const Register = () => {
         <div style={{ flex: '1  1 auto' }}>
           <div className='border border-3 border-primary'></div>
           <div className="d-flex py-4 m-4">
-            <Link to={'/provider'} className='navbar-brand'><h2 className='fw-bolder text-primary'>M-Eventos</h2></Link>
+            <Link to={'/provider'} className='navbar-brand'><img width={'75px'} height={'50px'} src="/img/logo/logo_noir_trans.png" alt="EVENTOS" /></Link>
           </div>
           <div className="container py-3 md-12 w-75">
             <h1 className="h3 mb-3 fw-normal">Please register</h1>

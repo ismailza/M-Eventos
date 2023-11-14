@@ -140,6 +140,25 @@ const AddService = () => {
                 />
               )}
               <form className="row g-3 needs-validation text-start" onSubmit={handleSubmit} encType="multipart/form-data" noValidate>
+
+                {/* https://www.codeply.com/go/PPzgkioUj2/bootstrap-step_by_step-form-example */}
+                <div className="stepwizard w-100 col-md-offset-3">
+                  <div className="stepwizard-row setup-panel">
+                    <div className="stepwizard-step">
+                      <a href="#step-1" type="button" className="btn btn-primary btn-circle">1</a>
+                      <p>Step 1</p>
+                    </div>
+                    <div className="stepwizard-step">
+                      <a href="#step-2" type="button" className="btn btn-default btn-circle" disabled="disabled">2</a>
+                      <p>Step 2</p>
+                    </div>
+                    <div className="stepwizard-step">
+                      <a href="#step-3" type="button" className="btn btn-default btn-circle" disabled="disabled">3</a>
+                      <p>Step 3</p>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="col-md-6">
                   <label htmlFor="name" className="form-label">Service name</label>
                   <input type="text" name="name" value={state.name} onChange={handleChange} className="form-control" id="name" placeholder='Service name' />

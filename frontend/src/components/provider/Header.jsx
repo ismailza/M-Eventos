@@ -10,7 +10,7 @@ const Header = () => {
     <header className='w-100 m-lg-0 top-0 bg-info'>
       <nav className="navbar navbar-expand-lg navbar-light bg-white py-3">
         <div className="container px-5">
-          <Link to={'/provider'} className='navbar-brand'><span className='fw-bolder text-primary'>M-Eventos</span></Link>
+          <Link to={'/provider'} className='navbar-brand'><img width={'75px'} height={'50px'} src="/img/logo/logo_noir_trans.png" alt="EVENTOS" /></Link>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span className="navbar-toggler-icon"></span></button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
