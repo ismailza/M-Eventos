@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom"
 import Header from "../../components/provider/Header"
 import AddOptionModal from "../../components/provider/AddOptionModal"
 import { toast } from "react-toastify"
+import Footer from "../../components/provider/Footer"
 
 const AddService = () => {
 
@@ -14,15 +15,46 @@ const AddService = () => {
     options: {},
     category_id: '',
     new_category: '',
+    packages: []
+  })
+
+  const [packageState, setPackageState] = useState({
+    name: '',
+    description: '',
+    price: '',
   })
 
   const [errors, setErrors] = useState({})
-
   const [options, setOptions] = useState([])
-
   const [categories, setCategories] = useState([])
-
   const [showModal, setShowModal] = useState(false)
+  const [currentStep, setCurrentStep] = useState(1)
+  const [stepLabels] = useState(['Step 1', 'Step 2', 'Step 3'])
+
+  const checkValidity = (step) => {
+    const form = document.getElementById('step' + step);
+    const inputs = form.querySelectorAll('input, select, textarea');
+    let isValid = true;
+    inputs.forEach(input => {
+      if (input.checkValidity() === false) {
+        isValid = false;
+        input.classList.add('is-invalid');
+      }
+    });
+    return isValid;
+  }
+
+  const handleNextStep = (e) => {
+    e.preventDefault()
+    if (!checkValidity(currentStep)) {
+      return;
+    }
+    setCurrentStep(currentStep + 1);
+  }
+
+  const handlePreviousStep = () => {
+    setCurrentStep(currentStep - 1);
+  }
 
   const openModal = () => {
     setShowModal(true)
@@ -52,8 +84,8 @@ const AddService = () => {
     try {
       const response = await axios.post('/api/provider/options/store', { name: option })
       setOptions([...options, response.data.options])
-      toast.success(response.data.message);
       closeModal()
+      toast.success(response.data.message);
     } catch (err) {
       console.log(err)
     }
@@ -61,9 +93,10 @@ const AddService = () => {
   
   useEffect(() => {
     create()
-  }, [])
+  }, [options])
 
   const handleChange = (event) => {
+    event.target.classList.remove('is-invalid')
     setState({
       ...state,
       [event.target.name]: event.target.value
@@ -71,10 +104,17 @@ const AddService = () => {
   }
 
   const handleCategoryChange = (event) => {
+    event.target.classList.remove('is-invalid')
     if (event.target.value == 0)
+    {
       document.getElementById('new_category').parentElement.classList.remove('visually-hidden')
+      document.getElementById('new_category').required = true
+    }
     else
+    {
       document.getElementById('new_category').parentElement.classList.add('visually-hidden')
+      document.getElementById('new_category').required = false
+    }
     setState({
       ...state,
       [event.target.name]: event.target.value
@@ -82,6 +122,7 @@ const AddService = () => {
   }
 
   const handleFileChange = (event) => {
+    event.target.classList.remove('is-invalid')
     setState({
       ...state,
       medias: event.target.files
@@ -115,6 +156,8 @@ const AddService = () => {
 
   }
 
+
+
   return (
     <>
       <Header />
@@ -140,69 +183,112 @@ const AddService = () => {
                 />
               )}
               <form className="row g-3 needs-validation text-start" onSubmit={handleSubmit} encType="multipart/form-data" noValidate>
-
-                {/* https://www.codeply.com/go/PPzgkioUj2/bootstrap-step_by_step-form-example */}
                 <div className="stepwizard w-100 col-md-offset-3">
                   <div className="stepwizard-row setup-panel">
-                    <div className="stepwizard-step">
-                      <a href="#step-1" type="button" className="btn btn-primary btn-circle">1</a>
-                      <p>Step 1</p>
-                    </div>
-                    <div className="stepwizard-step">
-                      <a href="#step-2" type="button" className="btn btn-default btn-circle" disabled="disabled">2</a>
-                      <p>Step 2</p>
-                    </div>
-                    <div className="stepwizard-step">
-                      <a href="#step-3" type="button" className="btn btn-default btn-circle" disabled="disabled">3</a>
-                      <p>Step 3</p>
-                    </div>
+                    {stepLabels.map((label, index) => (
+                      <div className="stepwizard-step" key={index}>
+                        <span className={`btn btn-${currentStep === index + 1 ? 'primary' : 'default'} btn-circle`}>
+                          {index + 1}
+                        </span>
+                        <p>{label}</p>
+                      </div>
+                    ))}
                   </div>
                 </div>
 
-                <div className="col-md-6">
-                  <label htmlFor="name" className="form-label">Service name</label>
-                  <input type="text" name="name" value={state.name} onChange={handleChange} className="form-control" id="name" placeholder='Service name' />
+                <div id="step1" className={`row ${currentStep !== 1 ? 'd-none' : ''}`}>
+                  <div className="col-md-6">
+                    <label htmlFor="name" className="form-label">Service name</label>
+                    <input type="text" name="name" value={state.name} onChange={handleChange} className="form-control" id="name" placeholder='Service name' required/>
+                  </div>
+                  <div className="col-md-6">
+                    <label htmlFor="category" className="form-label">Category</label>
+                    <select name="category_id" onChange={handleCategoryChange} className="form-control" id="category" required>
+                      <option value="" selected disabled>Select category</option>
+                      {categories.map((category, index) => (
+                        <option key={index} value={category.id}>{category.name}</option>
+                      ))}
+                      <option value="0">Other</option>
+                    </select>
+                  </div>
+                  <div className="col-md-12 visually-hidden">
+                    <label htmlFor="new_category">New Category</label>
+                    <input type="text" name="new_category" onChange={handleChange} className="form-control" id="new_category" placeholder='New Category' />
+                  </div>
+                  <div className="col-md-12">
+                    <label htmlFor="description" className="form-label">Description</label>
+                    <textarea name="description" value={state.description} onChange={handleChange} className="form-control" id="description" placeholder='Description' required></textarea>
+                  </div>
+                  <div className="col-md-12">
+                    <label htmlFor="medias" className="form-label">Medias</label>
+                    <input type="file" name="medias" onChange={handleFileChange} className="form-control" id="medias" multiple required/>
+                  </div>
+                  <div className="col-md-12">
+                    <label htmlFor="options" className="form-label">Options</label>
+                    <button className="btn btn-primary btn-sm float-end" type="button" onClick={openModal}>Add option</button>
+                    <select name="options[]" onChange={handleChange} className="form-control" id="options" multiple required>
+                      {options.map((option, index) => (
+                        <option key={index} value={option.id}>{option.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div class="d-grid gap-2 mt-2 d-md-flex justify-content-md-center">
+                    <Link to={'/provider/services'} class="btn btn-secondary me-md-2" type="button">
+                      Cancel
+                    </Link>
+                    <button type="button" className="btn btn-primary" onClick={handleNextStep}>
+                      Next
+                    </button>
+                  </div>
                 </div>
-                <div className="col-md-6">
-                  <label htmlFor="category" className="form-label">Category</label>
-                  <select name="category_id" onChange={handleCategoryChange} className="form-control" id="category">
-                    <option value="" selected disabled>Select category</option>
-                    {categories.map((category, index) => (
-                      <option key={index} value={category.id}>{category.name}</option>
-                    ))}
-                    <option value="0">Other</option>
-                  </select>
+
+                <div id="step2" className={`row ${currentStep !== 2 ? 'd-none' : ''}`}>
+
+                  <div className="col-md-6">
+                    <label htmlFor="package-name" className="form-label">Name</label>
+                    <input type="text" name="package-name"  value={''} className="form-control" id="package-name" placeholder="Package name" required/>
+                  </div>
+                  <div className="col-md-6">
+                    <label htmlFor="price" className="form-label">Price</label>
+                    <div className="input-group mb-3">
+                      <input type="number" name="price" min={0} value={state.price} onChange={handleChange} className="form-control" id="price" placeholder='Price' required/>
+                      <span className="input-group-text">€</span>
+                    </div>
+                  </div>
+                  <div className="col-md-12">
+                    <label htmlFor="package-description" className="form-label">Description</label>
+                    <textarea name="package-description" value={''} className="form-control" id="package-description" placeholder='Description' required></textarea>
+                  </div>
+
+                  <div class="d-grid gap-2 mt-2 d-md-flex justify-content-md-center">
+                    <button type="button" className="btn btn-secondary me-2" onClick={handlePreviousStep}>
+                      Previous
+                    </button>
+                    <button type="button" className="btn btn-primary" onClick={handleNextStep}>
+                      Next
+                    </button>
+                  </div>
                 </div>
-                <div className="col-md-12 visually-hidden">
-                  <label htmlFor="new_category">New Category</label>
-                  <input type="text" name="new_category" onChange={handleChange} className="form-control" id="new_category" placeholder='New Category' />
+
+                <div id="step3" className={`row ${currentStep !== 3 ? 'd-none' : ''}`}>
+
+                  <div class="d-grid gap-2 mt-2 d-md-flex justify-content-md-center">
+                    <button type="button" className="btn btn-secondary me-2" onClick={handlePreviousStep}>
+                      Previous
+                    </button>
+                    <button type="submit" className="btn btn-primary">
+                      Save
+                    </button>
+                  </div>
                 </div>
-                <div className="col-md-12">
-                  <label htmlFor="description" className="form-label">Description</label>
-                  <textarea name="description" value={state.description} onChange={handleChange} className="form-control" id="description" placeholder='Description' ></textarea>
-                </div>
-                <div className="col-md-12">
-                  <label htmlFor="medias" className="form-label">Medias</label>
-                  <input type="file" name="medias" onChange={handleFileChange} className="form-control" id="medias" multiple />
-                </div>
-                <div className="col-md-12">
-                  <label htmlFor="options" className="form-label">Options</label>
-                  <button className="btn btn-primary btn-sm float-end" type="button" onClick={openModal}>Add option</button>
-                  <select name="options[]" onChange={handleChange} className="form-control" id="options" multiple>
-                    {options.map((option, index) => (
-                      <option key={index} value={option.id}>{option.name}</option>
-                    ))}
-                  </select>
-                </div>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                  <Link to={'/provider/services'} class="btn btn-secondary me-md-2" type="button">Cancel</Link>
-                  <button className="btn btn-primary" type="submit">Save</button>
-                </div>
+
               </form>
             </div>
           </div>
         </div>
       </div>
+
+      <Footer />
     </>
   )
 }

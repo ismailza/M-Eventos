@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import axios from "../../api/axios"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import Header from "../../components/provider/Header"
+import Footer from "../../components/provider/Footer"
 
 
 const AddService = () => {
@@ -167,6 +168,8 @@ const AddService = () => {
           </div>
         </div>
       </div>
+
+      <Footer />
     </>
   )
 }

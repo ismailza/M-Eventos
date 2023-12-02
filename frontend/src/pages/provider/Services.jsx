@@ -4,6 +4,7 @@ import axios from "../../api/axios"
 import ReactPaginate from 'react-paginate';
 import Header from "../../components/provider/Header";
 import { toast } from "react-toastify";
+import Footer from "../../components/provider/Footer";
 
 const Services = () => {
 
@@ -119,6 +120,8 @@ const Services = () => {
           </div>
         </div>
       </div>
+
+      <Footer />
     </>
   )
 }

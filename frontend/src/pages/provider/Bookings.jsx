@@ -3,6 +3,7 @@ import axios from "../../api/axios"
 import ReactPaginate from 'react-paginate';
 import Header from "../../components/provider/Header";
 import { toast } from "react-toastify";
+import Footer from "../../components/provider/Footer";
 
 const Bookings = () => {
 
@@ -127,6 +128,8 @@ const Bookings = () => {
           </div>
         </div>
       </div>
+
+      <Footer />
     </>
   )
 }

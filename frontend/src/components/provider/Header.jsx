@@ -1,13 +1,15 @@
 import { Link, useLocation } from "react-router-dom"
+import Welcome from "./Welcome";
 import useAuthContext from "../../context/AuthContext";
 
 const Header = () => {
 
-  const { user, logout } = useAuthContext();
   const location = useLocation();
 
+  const { user, logout } = useAuthContext();
+
   return (
-    <header className='w-100 m-lg-0 top-0 bg-info'>
+    <header className='w-100 m-lg-0 top-0'>
       <nav className="navbar navbar-expand-lg navbar-light bg-white py-3">
         <div className="container px-5">
           <Link to={'/provider'} className='navbar-brand'><img width={'75px'} height={'50px'} src="/img/logo/logo_noir_trans.png" alt="EVENTOS" /></Link>
@@ -60,14 +62,14 @@ const Header = () => {
               ) : (
                 <>
                   <li className="nav-item">
-                      <Link to={'/provider/login'} className={`nav-link ${location.pathname === '/provider/login' ? 'active' : ''}`} >
-                        Login
-                      </Link>
+                    <Link to={'/provider/login'} className={`nav-link ${location.pathname === '/provider/login' ? 'active' : ''}`} >
+                      Login
+                    </Link>
                   </li>
                   <li className="nav-item">
-                      <Link to={'/provider/register'} className={`nav-link ${location.pathname === '/provider/register' ? 'active' : ''}`} >
-                        Register
-                      </Link>
+                    <Link to={'/provider/register'} className={`nav-link ${location.pathname === '/provider/register' ? 'active' : ''}`} >
+                      Register
+                    </Link>
                   </li>
                 </>
               )}
@@ -75,6 +77,22 @@ const Header = () => {
           </div>
         </div>
       </nav>
+      <div className="container">
+        <div className="container-consistant flex flex-col gap-y-11">
+          <div className="upper">
+            <div className="upper-content d-flex justify-content-between">
+              <Welcome />
+              <div className="upper-right rounded-5" style={{ width: '260px' }}>
+                <div className="input-group input-group-sm mb-3">
+                  <input type="text" className="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2" />
+                  <button className="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr className="mb-4 mt-2" />
     </header>
   )
 }

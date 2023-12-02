@@ -1,5 +1,6 @@
 import useAuthContext from "../../context/AuthContext"
 import Header from "../../components/provider/Header";
+import Footer from "../../components/provider/Footer";
 
 const Profile = () => {
 
@@ -72,6 +73,8 @@ const Profile = () => {
           </form>
         </div>
       </div>
+
+      <Footer />
     </>
   )
 }
