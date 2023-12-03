@@ -5,6 +5,7 @@ import Header from "../../components/provider/Header"
 import AddOptionModal from "../../components/provider/AddOptionModal"
 import { toast } from "react-toastify"
 import Footer from "../../components/provider/Footer"
+import { Editor } from '@tinymce/tinymce-react';
 
 const AddService = () => {
 
@@ -18,18 +19,50 @@ const AddService = () => {
     packages: []
   })
 
-  const [packageState, setPackageState] = useState({
-    name: '',
-    description: '',
-    price: '',
-  })
-
   const [errors, setErrors] = useState({})
   const [options, setOptions] = useState([])
   const [categories, setCategories] = useState([])
   const [showModal, setShowModal] = useState(false)
   const [currentStep, setCurrentStep] = useState(1)
   const [stepLabels] = useState(['Step 1', 'Step 2', 'Step 3'])
+
+  const navigate = useNavigate()
+
+  const csrf = () => axios.get('/sanctum/csrf-cookie');
+
+  const create = async () => {
+    await csrf()
+    try {
+      const response = await axios.get('/api/provider/services/create')
+      setOptions(response.data.options)
+      setCategories(response.data.categories)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleAddOption = async (option) => {
+    await csrf()
+    try {
+      const response = await axios.post('/api/provider/options/store', { name: option })
+      setOptions([...options, response.data.options])
+      closeModal()
+      toast.success(response.data.message);
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  useEffect(() => {
+    create()
+
+    document.querySelector('form').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        return false;
+      }
+    });
+  }, [options])
 
   const checkValidity = (step) => {
     const form = document.getElementById('step' + step);
@@ -63,37 +96,6 @@ const AddService = () => {
   const closeModal = () => {
     setShowModal(false)
   }
-
-  const navigate = useNavigate()
-
-  const csrf = () => axios.get('/sanctum/csrf-cookie');
-
-  const create = async () => {
-    await csrf()
-    try {
-      const response = await axios.get('/api/provider/services/create')
-      setOptions(response.data.options)
-      setCategories(response.data.categories)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const handleAddOption = async (option) => {
-    await csrf()
-    try {
-      const response = await axios.post('/api/provider/options/store', { name: option })
-      setOptions([...options, response.data.options])
-      closeModal()
-      toast.success(response.data.message);
-    } catch (err) {
-      console.log(err)
-    }
-  }
-  
-  useEffect(() => {
-    create()
-  }, [options])
 
   const handleChange = (event) => {
     event.target.classList.remove('is-invalid')
@@ -156,7 +158,46 @@ const AddService = () => {
 
   }
 
+  const handleAddPackage = () => {
+    const newPackages = [...state.packages];
 
+    newPackages.push({
+      name: '',
+      description: '',
+      price: '',
+    });
+
+    setState({
+      ...state,
+      packages: newPackages,
+    });
+  };
+
+  const handlePackageChange = (event, index) => {
+    const { name, value } = event.target;
+    const newPackages = [...state.packages];
+
+    newPackages[index] = {
+      ...newPackages[index],
+      [name]: value,
+    };
+
+    setState({
+      ...state,
+      packages: newPackages,
+    });
+
+    console.log(state)
+  };
+
+  const handleDeletePackage = (index) => {
+    const newPackages = [...state.packages];
+    newPackages.splice(index, 1);
+    setState({
+      ...state,
+      packages: newPackages,
+    });
+  };
 
   return (
     <>
@@ -241,23 +282,61 @@ const AddService = () => {
                     </button>
                   </div>
                 </div>
-
+                
                 <div id="step2" className={`row ${currentStep !== 2 ? 'd-none' : ''}`}>
-
-                  <div className="col-md-6">
-                    <label htmlFor="package-name" className="form-label">Name</label>
-                    <input type="text" name="package-name"  value={''} className="form-control" id="package-name" placeholder="Package name" required/>
-                  </div>
-                  <div className="col-md-6">
-                    <label htmlFor="price" className="form-label">Price</label>
-                    <div className="input-group mb-3">
-                      <input type="number" name="price" min={0} value={state.price} onChange={handleChange} className="form-control" id="price" placeholder='Price' required/>
-                      <span className="input-group-text">€</span>
-                    </div>
-                  </div>
-                  <div className="col-md-12">
-                    <label htmlFor="package-description" className="form-label">Description</label>
-                    <textarea name="package-description" value={''} className="form-control" id="package-description" placeholder='Description' required></textarea>
+                  
+                  {state.packages.map((packageItem, index) => (
+                    <>
+                      <legend className="text-center fs-6 text-primary">Package {index + 1}</legend>
+                      <fieldset className="row g-3 p-2 mb-2 border">
+                        <div className="col-md-6">
+                          <label htmlFor="name" className="form-label">Name</label>
+                          <input type="text"
+                            name="name"
+                            value={packageItem.name}
+                            onChange={(e) => handlePackageChange(e, index)}
+                            className="form-control"
+                            id="name"
+                            placeholder="Package name"
+                            required
+                          />
+                        </div>
+                        <div className="col-md-6">
+                          <label htmlFor="price" className="form-label">Price</label>
+                          <div className="input-group mb-3">
+                            <input type="number" min={0}
+                              name="price"
+                              value={state.price}
+                              onChange={handleChange}
+                              className="form-control"
+                              id="price" placeholder='Price'
+                              required
+                            />
+                            <span className="input-group-text">€</span>
+                          </div>
+                        </div>
+                        <div className="col-md-12">
+                          <label htmlFor="description" className="form-label">Description</label>
+                          <textarea
+                            name="description"
+                            value={''}
+                            className="form-control"
+                            id="description"
+                            placeholder='Description'
+                            required></textarea>
+                        </div>
+                        <div className="col-md-12">
+                          <button type="button" className="btn btn-danger btn-sm float-end" onClick={() => handleDeletePackage(index)}>
+                            Delete Package -
+                          </button>
+                        </div>
+                      </fieldset>
+                    </>
+                  ))}
+                  <div class="col-md-12">
+                    <button type="button" className="btn btn-primary btn-sm" onClick={handleAddPackage}>
+                      Add Package +
+                    </button>
                   </div>
 
                   <div class="d-grid gap-2 mt-2 d-md-flex justify-content-md-center">
