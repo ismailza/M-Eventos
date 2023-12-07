@@ -19,27 +19,27 @@ const Dashboard = () => {
           <div className="lower">
             <div className="content-section row">
 
-              <CountBox title="MY SERVICES" color="info">
+              <CountBox title="SERVICES" color="info">
                 <h5>You Have</h5>
                 <h4>{dashboard['countServices']}</h4>
                 <h5>Services</h5>
               </CountBox>
-              <CountBox title="MY BOOKINGS" color="success">
+              <CountBox title="BOOKINGS" color="success">
                 <h5>You Have</h5>
                 <h4>{dashboard['countBookings']}</h4>
                 <h5>Bookings</h5>
               </CountBox>
-              <CountBox title="MY REVIEWS" color="warning">
+              <CountBox title="REVIEWS" color="warning">
                 <h5>You Have</h5>
                 <h4>{dashboard['countReviews']}</h4>
                 <h5>Reviews</h5>
               </CountBox>
-              <CountBox title="MY SERVICES" color="danger">
+              <CountBox title="RATINGS" color="danger">
                 <h5>You Have</h5>
-                <h4>{dashboard['countServices']}</h4>
-                <h5>Services</h5>
+                <h4>{dashboard['countRatings']}</h4>
+                <h5>Ratings</h5>
               </CountBox>
-              <CountBox title="MY SERVICES" color="primary">
+              <CountBox title="SERVICES" color="primary">
                 <h5>You Have</h5>
                 <h4>{dashboard['countServices']}</h4>
                 <h5>Services</h5>

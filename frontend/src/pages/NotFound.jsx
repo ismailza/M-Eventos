@@ -3,13 +3,12 @@ import { Link } from "react-router-dom"
 const NotFound = () => {
   return (
     <>
+      <div className='border border-3 border-primary'></div>
       <div className="container">
-        <div className="d-flex">
-          <div className="py-4 m-4">
-            <Link to={'/'} className='navbar-brand'><h2 className='fw-bolder text-primary'>MEvents</h2></Link>
-          </div>
+        <div className="d-flex mt-4 ms-5">
+          <Link to={'/provider'} className='navbar-brand'><img width={'75px'} height={'50px'} src="/img/logo/logo_noir_trans.png" alt="MEVENTOS" /></Link>
         </div>
-        <div className="row">
+        <div className="row mt-5 pt-5">
           <div className="col-md-12">
             <div className="error-template text-center">
               <h1>Oops!</h1>

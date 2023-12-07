@@ -17,6 +17,7 @@ import ForgotPassword from './pages/provider/ForgotPassword'
 import Bookings from './pages/provider/Bookings'
 import { Triangle } from 'react-loader-spinner'
 import { useState, useEffect } from 'react'
+import Service from './pages/provider/Service'
 
 function App() {
 
@@ -50,6 +51,7 @@ function App() {
             <Route path="/provider" exact element={<ProviderDashboard />} />
             <Route path="/provider/profile" exact element={<Profile />} />
             <Route path="/provider/services" exact element={<Services />} />
+            <Route path="/provider/services/:id" exact element={<Service />} />
             <Route path="/provider/services/add" exact element={<AddService />} />
             <Route path="/provider/services/:id/edit" exact element={<EditService />} />
             <Route path="/provider/bookings" exact element={<Bookings />} />

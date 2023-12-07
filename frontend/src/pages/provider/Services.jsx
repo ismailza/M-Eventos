@@ -5,6 +5,9 @@ import ReactPaginate from 'react-paginate';
 import Header from "../../components/provider/Header";
 import { toast } from "react-toastify";
 import Footer from "../../components/provider/Footer";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
 const Services = () => {
 
@@ -90,8 +93,15 @@ const Services = () => {
                       <td>{service.category.name}</td>
                       <td>{new Date(service.created_at).toLocaleString()}</td>
                       <td className="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <Link to={`/provider/services/${service.id}/edit`} className="btn btn-warning btn-sm me">Edit</Link>
-                        <button className="btn btn-danger btn-sm" type="button" onClick={deleteService(service.id)}>Delete</button>
+                        <Link to={`/provider/services/${service.id}`} className="btn btn-info btn-sm me">
+                          <RemoveRedEyeIcon />
+                        </Link>
+                        <Link to={`/provider/services/${service.id}/edit`} className="btn btn-warning btn-sm me">
+                          <EditIcon />
+                        </Link>
+                        <button className="btn btn-danger btn-sm" type="button" onClick={deleteService(service.id)}>
+                          <DeleteIcon />
+                        </button>
                       </td>
                     </tr>
                   ))}

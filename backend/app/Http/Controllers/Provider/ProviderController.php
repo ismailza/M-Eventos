@@ -21,7 +21,8 @@ class ProviderController extends Controller
             'latestBookings' => Booking::whereHas('service', function ($query) {
                     $query->where('provider_id', Auth::guard('provider')->user()->id);
                 })->with('service', 'package')->latest()->take(5)->get(),
-            'countReviews' => 0,
+            'countReviews' => Service::where('provider_id', Auth::guard('provider')->user()->id)->withCount('reviews')->get()->sum('reviews_count'),
+            'countRatings' => Service::where('provider_id', Auth::guard('provider')->user()->id)->withCount('ratings')->get()->sum('ratings_count'),
         ];
     }
 
