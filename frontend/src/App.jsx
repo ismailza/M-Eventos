@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes, Link, Route, useLocation } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import './App.css'
 
 import Home from './pages/Home'
@@ -15,33 +15,53 @@ import AddService from './pages/provider/AddService'
 import EditService from './pages/provider/EditService'
 import ForgotPassword from './pages/provider/ForgotPassword'
 import Bookings from './pages/provider/Bookings'
+import { Triangle } from 'react-loader-spinner'
+import { useState, useEffect } from 'react'
 
 function App() {
 
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false)
+    }, 1000)
+  }, [])
+
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/services" element={<Home />} />
-        <Route path="/bons-plans" element={<Home />} />
-        <Route path="/actualites" element={<Home />} />
-        <Route path="/contact" element={<Home />} />
+      {loading && (
+        <Triangle 
+          color="#000" 
+          height={80}
+          width={80} 
+          wrapperStyle={{marginTop: '20%', marginLeft: '45%'}}
+        />
+      ) ||
+      (
+        <Routes>
+          <Route path="/" exact element={<Home />} />
+          <Route path="/services" exact element={<Home />} />
+          <Route path="/bons-plans" exact element={<Home />} />
+          <Route path="/actualites" exact element={<Home />} />
+          <Route path="/contact" exact element={<Home />} />
 
-        <Route element={<AuthLayout />}>
-          <Route path="/provider" element={<ProviderDashboard />} />
-          <Route path="/provider/profile" element={<Profile />} />
-          <Route path="/provider/services" element={<Services />} />
-          <Route path="/provider/services/add" element={<AddService />} />
-          <Route path="/provider/services/:id/edit" element={<EditService />} />
-          <Route path="/provider/bookings" element={<Bookings />} />
-        </Route>
-        <Route element={<GuestLayout />}>
-          <Route path="/provider/login" element={<Login />} />
-          <Route path="/provider/register" element={<Register />} />
-          <Route path="/provider/forgot-password" element={<ForgotPassword />} />
-        </Route>
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+          <Route element={<AuthLayout />}>
+            <Route path="/provider" exact element={<ProviderDashboard />} />
+            <Route path="/provider/profile" exact element={<Profile />} />
+            <Route path="/provider/services" exact element={<Services />} />
+            <Route path="/provider/services/add" exact element={<AddService />} />
+            <Route path="/provider/services/:id/edit" exact element={<EditService />} />
+            <Route path="/provider/bookings" exact element={<Bookings />} />
+          </Route>
+          <Route element={<GuestLayout />}>
+            <Route path="/provider/login" exact element={<Login />} />
+            <Route path="/provider/register" exact element={<Register />} />
+            <Route path="/provider/forgot-password" exact element={<ForgotPassword />} />
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      )}
     </>
   )
 }

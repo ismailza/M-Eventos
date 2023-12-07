@@ -44,6 +44,7 @@ class ServiceController extends Controller
         $service['provider_id'] = Auth::guard('provider')->user()->id;
         $service = Service::create($service);
         $service->options()->sync($request->validated('options'));
+        $service->packages()->createMany($request->validated('packages'));
         $this->processMedia($service, $request->file('medias'));
         return response()->json([
             'status' => 201,

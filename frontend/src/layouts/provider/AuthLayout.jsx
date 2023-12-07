@@ -5,7 +5,7 @@ import useAuthContext from "../../context/AuthContext"
 const AuthLayout = () => {
   
   const { user } = useAuthContext()
-
+  
   return user ? <Outlet /> : <Navigate to="/provider/login" />
 }
 

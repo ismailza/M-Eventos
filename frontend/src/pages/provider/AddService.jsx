@@ -16,7 +16,11 @@ const AddService = () => {
     options: {},
     category_id: '',
     new_category: '',
-    packages: []
+    packages: [{
+      name: '',
+      description: '',
+      price: '',
+    }]
   })
 
   const [errors, setErrors] = useState({})
@@ -146,7 +150,14 @@ const AddService = () => {
         price: '',
         category: '',
         medias: {},
-        options: {}
+        options: {},
+        category_id: '',
+        new_category: '',
+        packages: [{
+          name: '',
+          description: '',
+          price: '',
+        }]
       })
       setErrors({})
       toast.success('Service added successfully');
@@ -186,8 +197,6 @@ const AddService = () => {
       ...state,
       packages: newPackages,
     });
-
-    console.log(state)
   };
 
   const handleDeletePackage = (index) => {
@@ -273,8 +282,8 @@ const AddService = () => {
                       ))}
                     </select>
                   </div>
-                  <div class="d-grid gap-2 mt-2 d-md-flex justify-content-md-center">
-                    <Link to={'/provider/services'} class="btn btn-secondary me-md-2" type="button">
+                  <div className="d-grid gap-2 mt-2 d-md-flex justify-content-md-center">
+                    <Link to={'/provider/services'} className="btn btn-secondary me-md-2" type="button">
                       Cancel
                     </Link>
                     <button type="button" className="btn btn-primary" onClick={handleNextStep}>
@@ -284,9 +293,9 @@ const AddService = () => {
                 </div>
                 
                 <div id="step2" className={`row ${currentStep !== 2 ? 'd-none' : ''}`}>
-                  
+
                   {state.packages.map((packageItem, index) => (
-                    <>
+                    <div key={index}>
                       <legend className="text-center fs-6 text-primary">Package {index + 1}</legend>
                       <fieldset className="row g-3 p-2 mb-2 border">
                         <div className="col-md-6">
@@ -304,10 +313,10 @@ const AddService = () => {
                         <div className="col-md-6">
                           <label htmlFor="price" className="form-label">Price</label>
                           <div className="input-group mb-3">
-                            <input type="number" min={0}
+                            <input type="number" min={0} step={0.01}
                               name="price"
-                              value={state.price}
-                              onChange={handleChange}
+                              value={packageItem.price}
+                              onChange={(e) => handlePackageChange(e, index)}
                               className="form-control"
                               id="price" placeholder='Price'
                               required
@@ -319,39 +328,36 @@ const AddService = () => {
                           <label htmlFor="description" className="form-label">Description</label>
                           <textarea
                             name="description"
-                            value={''}
+                            value={packageItem.description}
+                            onChange={(e) => handlePackageChange(e, index)}
                             className="form-control"
                             id="description"
                             placeholder='Description'
                             required></textarea>
                         </div>
-                        <div className="col-md-12">
-                          <button type="button" className="btn btn-danger btn-sm float-end" onClick={() => handleDeletePackage(index)}>
-                            Delete Package -
-                          </button>
-                        </div>
+                        {index > 0 &&
+                          <div className="col-md-12">
+                            <button type="button" className="btn btn-danger btn-sm float-end" onClick={() => handleDeletePackage(index)}>
+                              Delete Package -
+                            </button>
+                          </div>
+                        }
                       </fieldset>
-                    </>
+                    </div>
                   ))}
-                  <div class="col-md-12">
-                    <button type="button" className="btn btn-primary btn-sm" onClick={handleAddPackage}>
-                      Add Package +
-                    </button>
+                  <div className="col-md-12">
+                    <button type="button" className="btn btn-primary btn-sm" onClick={handleAddPackage}>Add Package +</button>
                   </div>
 
-                  <div class="d-grid gap-2 mt-2 d-md-flex justify-content-md-center">
-                    <button type="button" className="btn btn-secondary me-2" onClick={handlePreviousStep}>
-                      Previous
-                    </button>
-                    <button type="button" className="btn btn-primary" onClick={handleNextStep}>
-                      Next
-                    </button>
+                  <div className="d-grid gap-2 mt-2 d-md-flex justify-content-md-center">
+                    <button type="button" className="btn btn-secondary me-2" onClick={handlePreviousStep}>Previous</button>
+                    <button type="button" className="btn btn-primary" onClick={handleNextStep}>Next</button>
                   </div>
                 </div>
 
                 <div id="step3" className={`row ${currentStep !== 3 ? 'd-none' : ''}`}>
 
-                  <div class="d-grid gap-2 mt-2 d-md-flex justify-content-md-center">
+                  <div className="d-grid gap-2 mt-2 d-md-flex justify-content-md-center">
                     <button type="button" className="btn btn-secondary me-2" onClick={handlePreviousStep}>
                       Previous
                     </button>

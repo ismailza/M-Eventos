@@ -29,6 +29,11 @@ class ServiceRequest extends FormRequest
             'medias.*' => 'required|mimes:jpg,jpeg,png,svg,mp4|max:20000',
             'options' => 'required|array',
             'options.*' => 'required|exists:options,id',
+            'packages' => 'required|array',
+            'packages.*' => 'required|array',
+            'packages.*.name' => 'required|string|max:30',
+            'packages.*.price' => 'required|numeric',
+            'packages.*.description' => 'required|string',
         ];
     }
 }

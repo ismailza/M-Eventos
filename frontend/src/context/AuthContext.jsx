@@ -46,7 +46,6 @@ export const AuthProvider = ({ children }) => {
       toast.success(resp.data.message);
       navigate('/provider/login', { state: { message: resp.data.message } });
     } catch (err) {
-      console.log(err);
       setErrors(err.response.data.errors);
     }
   }
@@ -77,7 +76,7 @@ export const AuthProvider = ({ children }) => {
     if (!user) {
       getUser();
     }
-  }, []);
+  }, [user]);
 
   return (
     <AuthContext.Provider value={{ user, errors, login, register, logout, getUser, dashboard, index }}>

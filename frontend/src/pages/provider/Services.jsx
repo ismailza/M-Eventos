@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Link, useLocation } from "react-router-dom"
+import { Link } from "react-router-dom"
 import axios from "../../api/axios"
 import ReactPaginate from 'react-paginate';
 import Header from "../../components/provider/Header";
@@ -7,8 +7,6 @@ import { toast } from "react-toastify";
 import Footer from "../../components/provider/Footer";
 
 const Services = () => {
-
-  const location = useLocation()
 
   const [services, setServices] = useState([])
   const [errors, setErrors] = useState({})
@@ -35,7 +33,7 @@ const Services = () => {
       const resp = await axios.delete(`/api/provider/services/${id}`)
       const response = await axios.get('/api/provider/services')
       setServices(response.data.services)
-      location.state = { message: resp.data.message }
+      toast.success(resp.data.message)
     } catch (error) {
       setErrors(error.response.errors)
     }

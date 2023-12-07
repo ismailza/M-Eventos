@@ -38,7 +38,7 @@ class Service extends Model
 
     public function packages()
     {
-        return $this->hasMany(ServicePackage::class);
+        return $this->hasMany(Package::class);
     }
     
 }
